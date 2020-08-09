@@ -31,12 +31,12 @@ public enum SkuCategoryEnum {
     /**
      * Category Name
      */
-    private String  Name;
+    private String  name;
 
 
     SkuCategoryEnum(Integer code, String name) {
         this.code = code;
-        Name = name;
+        this.name = name;
     }
 
 }
