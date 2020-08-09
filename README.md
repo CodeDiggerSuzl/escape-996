@@ -138,7 +138,7 @@
 
 - 垃圾回收只负责回收堆内存的资源,**不回收任何物理资源**
 - 程序无法**精确控制**垃圾回收动作的具体资源
-- 垃圾回收之前,总是先调用他的 finalize 方法
+- 垃圾回收之前,总是先调用他的 `finalize` 方法
 
 #### 1.3.2 常见需要手动释放的物理资源
 
@@ -224,10 +224,10 @@ public void copyFileNewTest() {
 
 #### 1.3.5 资源关闭的特殊方法
 
-- 资源对象被 return 的情况下,由调用方关闭
+- 资源对象被 `return` 的情况下,由调用方关闭
 
-- `ByteArrayInputStream`等情况不需要检查关闭的资源对象
-- 由 Socket 获取的 InputStream 和 OutPutStream 对象不需要关闭, 只需要 Socket 的`shutdownInput` 方法,**这样仅仅会关闭输入流,不会关闭Socket链接🔗**
+- `ByteArrayInputStream` 等情况不需要检查关闭的资源对象
+- 由 Socket 获取的 `InputStream` 和 `OutPutStream` 对象不需要关闭, 只需要 Socket 的`shutdownInput` 方法,**这样仅仅会关闭输入流,不会关闭Socket链接🔗**
 
 ### 1.4 线程池
 
@@ -315,9 +315,9 @@ JDK 提供的阻塞队列
 
 ##### 1.4.4.1 提供的阻塞队列 3 种
 
-- **ArrayBlockingQueue 有界队列**,当添加元素到达容量的时候会产生阻塞
-- **LinkedBlockingDeque 可以有界/也可以无界**基于链表的实现, 当添加元素到达容量的时候会产生阻塞,默认为`this(Integer.MAX_VALUE);`.
--  **SynchronousQueue**, 同步移交队列,插入的时候依托于某一个线程.不存储元素
+- **ArrayBlockingQueue 有界队列**: 当添加元素到达容量的时候会产生阻塞
+- **LinkedBlockingDeque:  可以有界/也可以无界**基于链表的实现, 当添加元素到达容量的时候会产生阻塞,默认为`this(Integer.MAX_VALUE);`.
+-  **SynchronousQueue**: 同步移交队列,插入的时候依托于某一个线程.不存储元素
 
 #### 1.4.5线程池的饱和策略 4 种
 
@@ -333,7 +333,7 @@ JDK 提供的阻塞队列
         if (!e.isShutdown()) {
           	// 删除一个元素
           	e.getQueue().poll();
-    				// 在执行线程
+    				   // 再执行线程
           	e.execute(r);
          }
     }
@@ -356,8 +356,7 @@ JDK 提供的阻塞队列
 ![](./imgs/thread_run_steps.jpg)
 
 
-
-1. 主线程调用`execute()`方法
+1. 主线程调用 `execute()` 方法
 2. 如果核心线程池没有满(1),就立刻创建一个线程来执行这个任务
 3. 如果满了就将任务提交到阻塞队列中(2),核心线程会不断地确阻塞队列中拉取线程
 4. 核心线程和阻塞队列都已经满了就创建新的线程(3),**前提是核心线程池的线程数量没有超过最大线程数**,此时会创建新的线程来执行任务.
@@ -450,13 +449,13 @@ public void executorTest() {
 #### 1.4.9 线程池的状态
 
 - **RUNNING**: 线程池处在正常的运行状态中能接收任务,能把任务添加到阻塞队列中,
-    - 当调用`shutDown()`方法的时候,不接受新的任务,会将对列中的任务执行完毕,之后进入 **SHUTDOWN** 状态
-    - 当调用`shutDownNow()`方法,不再接收新的任务,丢弃队列中的方法,中断正在执行的任务,之后进去 **STOP**方法
+    - 当调用 `shutDown()` 方法的时候,不接受新的任务,会将对列中的任务执行完毕,之后进入 **SHUTDOWN** 状态
+    - 当调用 `shutDownNow()` 方法,不再接收新的任务,丢弃队列中的方法,中断正在执行的任务,之后进去 **STOP**方法
 - **SHUTDOWN**:  后队列为空,执行任务为空. 进入到 **TIDYING** 状态
 - **STOP**: 线程池中的执行任务为空进入到, 进入到 **TIDYING** 状态
-- **TERMINATED** 线程池内部调用`terminated()`方法后进入到该状态
+- **TERMINATED** 线程池内部调用 `terminated()` 方法后进入到该状态
 
-需要注意的是 `shutDownNow()`和`shutDown()`方法,主要的区别是: **是否丢弃队列中的方法**
+需要注意的是 `shutDownNow()` 和 `shutDown()` 方法,主要的区别是: **是否丢弃队列中的方法**
 
 ![](./imgs/线程池的状态.jpg)
 
@@ -483,7 +482,7 @@ Guava 引入 `Optional<T>`表示可能为 `null` 的 `T` 类型引用。可能�
 1. 判断是否引用消失,建议不使用 `optional.isPresent();`
 2. 如果存在: `optional.ifPresent(System.out::println);`,类似的方法,`map`,`filter` `flatMap`
 
-3. 当 option 引用丢失的时候执行 `optional.orElseGet(() -> { return "else"; });`
+3. 当 option 引用丢失的时候执行: `optional.orElseGet(() -> { return "else"; });`
 4. 当应用丢失的时候抛出异常: `optional.orElseThrow(() -> { throw new RuntimeException("引用缺失"); });`
 
 #### 2.1.2  Guava 不可变集合
@@ -499,7 +498,7 @@ Guava 为所有的 JDK 标准集合类型个 Guava 新集合类型都提供了�
 - 不可变集合不需要考虑变换,因此可以节省时间和空间
 - 不可变对象因为有固定不变,可以作为常量来安全使用
 
-JDK 虽然提供了`unmodifiableXXX`方法但是有很多确点
+JDK 虽然提供了 `unmodifiableXXX` 方法但是有很多确点
 
 - 笨重而且累赘
 - 不安全
@@ -524,11 +523,11 @@ JDK 虽然提供了`unmodifiableXXX`方法但是有很多确点
 
 ##### 2.1.2.2 不可变结合的创建方式
 
-- copyOf:  `ImmutableSet<Integer> set = ImmutableSet.copyOf(list);`
+- `copyOf`:  `ImmutableSet<Integer> set = ImmutableSet.copyOf(list);`
 
-- of : `ImmutableList<ArrayList<Integer>> immutableList = ImmutableList.of(list);`
+- `of`: `ImmutableList<ArrayList<Integer>> immutableList = ImmutableList.of(list);`
 
-- Builder 方法
+- `Builder`: 方法
 
     ```java
      ImmutableList<Object> build = ImmutableList.builder()
@@ -583,9 +582,9 @@ Sets 常用的方法:
 - **并集**(union)
 - **交集**(intersection)
 - **差集**(differece) 不同之处,注意传入参数的位置
-- **相对差集**, 属于 A 且不属于 B 或者属于 B 不属于 A 的元素
-- **分解集合中的所有自己子集** :`powerSet(E)`
-- **求两个集合的笛卡尔积**``cartesianProduct()`
+- **相对差集**:  属于 A 且不属于 B 或者属于 B 不属于 A 的元素
+- **分解集合中的所有自己子集**: `powerSet(E)`
+- **求两个集合的笛卡尔积**: `cartesianProduct()`
 
 Lists 常用方法: 
 
@@ -600,12 +599,12 @@ Lists 常用方法:
 ##### 2.1.5.1 IO 工具方法
 
 - `ByteStreams`: 提供对`InputStream/OutputStream `方法的操作
-- `CharStreams`:提供对`Readr/Writer`的操作
+- `CharStreams`: 提供对`Readr/Writer`的操作
 
 ##### 2.1.5.2 对源(Source)和汇(Sink)的抽象
 
 - 源是可读的: `ByteSource/CharSource`
-- 汇是可写的`ByteSink/CharSink`
+- 汇是可写的: `ByteSink/CharSink`
 
 使用 Guava 文件拷贝
 
