@@ -19,7 +19,6 @@ public class FileService {
      * @param fileConsumer 文件消费者
      */
     public void fileHandle(String url, FileConsumer fileConsumer) throws IOException {
-        // TODO 获取文件读取流
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(url)));
         // 行变量
         String line;
@@ -27,7 +26,7 @@ public class FileService {
         StringBuilder sb = new StringBuilder();
         // 一直读取文件内容
         while ((line = bufferedReader.readLine()) != null) {
-            sb.append(line + "\n");
+            sb.append(line).append("\n");
         }
         // 处理文件(函数式接口
         fileConsumer.handleFile(sb.toString());
