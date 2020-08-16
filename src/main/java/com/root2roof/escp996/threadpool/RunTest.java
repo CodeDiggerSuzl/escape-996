@@ -1,6 +1,6 @@
 package com.root2roof.escp996.threadpool;
 
-import com.root2roof.escp996.Utils;
+import com.root2roof.escp996.utils.Utils;
 import org.junit.Test;
 
 import java.util.concurrent.*;

@@ -626,6 +626,75 @@ public void cpyFile() throws IOException {
 
 ### 2.2 验证框架
 
+### 2.3 lombok
+
+lombok 的实现原理：在注解编译时解析, **利用插入式注解处理器**将自定义的注解添加到编译后的字节码中.
+
+![](imgs/lombok的原理.jpg)
+
+#### 2.3.1 常用注解
+
+`@data`是下面方法的总和
+
+1. `@Getter` 生成`setter()`方法
+2. `@Setter` 生成`getter()`
+3. `@ToString` 生成`toString()` 方法
+4. `@EqualsAndHashCode` 生成`equals()`和`hashCode()` 方法
+
+构造方法相关注解：
+
+1. `@AllArgsConstructor` 生成全部参数的构造器
+2. `@RequiredArgsConstructor` 生成特定参数的构造器
+3. `@NoArgsContrutors` 生成无参构造器
+
+`@Slf4j` 日志支持
+
+`@SneakyThrows` 自动生成`try/catch`捕获异常
+
+`@Builder` 自动生成构造者模式
+
+`@Synchronized` 自动生成同步锁
+
+`@CleanUp` 自动调用变量的 `close` 方法进行资源的释放
+
+`@NotNull` 自动生成空值校验
+
+`@Val` 相当于弱语言中的 `val`
+
+`@NotNull` 生成非空注解
+
+`@CleanUp`注解  生成对资源关闭的一些代码，会在结束后添加`finally`中添加相应的`close()`方法
+
+```java
+public void cpyFile(String in, String out) throws Exception {
+    @Cleanup FileInputStream fileInputStream = new FileInputStream(in);
+    @Cleanup FileOutputStream fileOutputStream = new FileOutputStream(out);
+    int r;
+    while ((r = fileInputStream.read()) != -1) {
+        fileOutputStream.write(r);
+    }
+}
+
+```
+
+#### 2.3.2 Lombok 的优/缺点
+
+优点：
+
+1. 通过注解自动生成样板代码，提高开发效率
+2. 代码简洁，只关注相关的属性
+3. 新增加属性后，无需刻意修改相关的代码
+
+缺点：
+
+1. 降低了源代码的可读性和完整性
+2. 加大对问题排查的难度
+3. 需要IDE插件的支持
+
+
+
+
+
 
 
 ## 开发常用工具
